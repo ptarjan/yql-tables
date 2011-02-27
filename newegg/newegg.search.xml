@@ -83,9 +83,12 @@ if (root.length() != 0) {
 
     var itemCode = link.match(/Item=[^&]+/)[0].replace("Item=", "");
     item.itemCode = <itemCode>{itemCode}</itemCode>
-    var priceNode = root..div.(@id=="singleFinalPrice").p;
-    item.price = <price>{priceNode.text() + priceNode.sup.text()}</price>;
-    item.shipping = <shipping>{root..div.(@id=="synShipping").p.text()}</shipping>;
+
+    var url = "http://content.newegg.com/LandingPage/ItemInfo4ProductDetail.aspx?Item=" + itemCode;
+    y.include(url);
+
+    item.price = <price>{Product.finalPrice}</price>;
+    item.shipping = <shipping>{Product.shipping}</shipping>;
     item.image = <image>{root..img.(@id=="mainSlide_0").@src}</image>;
 
     result.item += fixItem(item);
