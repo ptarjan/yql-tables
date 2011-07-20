@@ -11,8 +11,7 @@
             <inputs>
         		<key id="query" type="xs:string" paramType="query" required="true" />
         		<key id="order" type="xs:string" paramType="query" default="PRICE" />
-        		<key id="subcategory" type="xs:string" paramType="query" default=""/>
-        		<key id="category" type="xs:string" paramType="query" default=""/>
+        		<key id="N" type="xs:string" paramType="query" default=""/>
             </inputs>
             <execute><![CDATA[
 var result = <result/>;
@@ -50,7 +49,7 @@ function fixItem(item) {
     return item;
 }
 
-var url = "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&Subcategory=" + subcategory + "&Category=" + category + "&Pagesize=100&Page=1";
+var url = "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&Description=" + (query) + "&Order=" + order + "&N=" + N + "&Pagesize=100&Page=1";
 
 var tries = 0;
 while (tries < 4) {
@@ -65,13 +64,14 @@ if (tries == 4)
 
 fullpage = html;
 // gcaProductCell == search page and synopsis == item
-html = y.xpath(html, "//div[@id='bcaProductCell']//div[@class='itemCell'] | //*[@class='alert'] | //div[@id='synopsis']");
+html = y.xpath(html, "//div[@id='bcaProductCell']//div[@class='itemCell'] | //div[@id='synopsis']");
 
 var good = true;
 if (html.length() == 0) good = false;
 if (html.(@['class'] == 'alert').length() != 0) {
   good = false;
 }
+good = true;
 
 // For the single product page
 var root = html.(@['id'] == "synopsis");
